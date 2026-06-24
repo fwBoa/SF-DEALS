@@ -1,32 +1,72 @@
-# React + TypeScript + Vite
+# SF Deals — CRM de prospection B2B
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+CRM de prospection pour l'Afrique de l'Ouest et le réseau Ecobank (33 pays).
+Suivi d'entreprises, contacts, opportunités ; pipeline kanban, dashboard,
+rappels, export/import CSV. Interface FR/EN.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Front** : React 19 + Vite 8 + TypeScript 6 + Tailwind CSS v4
+- **Back** : Supabase (Postgres + Auth + REST API), RLS team-scoped
+- **i18n** : react-i18next (FR/EN) · **Charts** : recharts · **Drag&drop** : @dnd-kit
 
-## React Compiler
+## Démarrage (local)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+cp .env.example .env.local   # renseigner VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY
+supabase start                # stack Docker locale
+supabase db reset             # applique migrations + seed (utilisateur dev inclus)
+npm run dev                   # http://localhost:5173
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+**Compte démo** : `dev@sfdeals.local` / `sfdeals123`
+
+## Scripts
+
+| Script | Rôle |
+|---|---|
+| `npm run dev` | serveur Vite |
+| `npm run build` | build prod (`tsc -b && vite build`) |
+| `npm run typecheck` | vérif de types |
+| `npm run check` | synchro listes config TS ↔ contraintes CHECK SQL |
+| `npm run smoke` | test navigateur Playwright (démarre le dev server avant) |
+| `npm run lint` | oxlint |
+
+## Architecture
+
+- **Multi-utilisateur dès le schéma** : appartenance par `team_id`
+  (`teams` + `team_members`). V1 = 1 équipe / 1 membre ; V2 = ajouter un
+  membre qui voit immédiatement les mêmes données (RLS `team_id in
+  current_user_teams()`). Pas de migration.
+- **Config-driven** : les listes (pays, secteurs, étapes, sources, segments,
+  devises, types d'activité) vivent dans `src/config/*` et sont mirrorées en
+  contraintes `CHECK` SQL. `npm run check` vérifie la cohérence.
+- **Sécurité** : RLS sur toutes les tables ; UPDATE avec `USING` + `WITH CHECK`
+  (anti-BOLA) ; `team_id` forcé côté app, jamais lu depuis un CSV d'import ;
+  `service_role` jamais exposé côté client (clé anon uniquement).
+
+## Déploiement (Vercel + Supabase cloud)
+
+1. **Supabase cloud**
+   - Créer un projet sur https://supabase.com
+   - `supabase link --project-ref <ref>`
+   - `supabase db push` (applique les migrations)
+   - Créer l'utilisateur de production via Dashboard → Authentication.
+     Récupérer l'`anon key` (Project Settings → API).
+
+2. **Vercel**
+   - Importer le repo GitHub.
+   - Framework preset : **Vite**.
+   - Variables d'environnement (Production + Preview) :
+     - `VITE_SUPABASE_URL` = `https://<ref>.supabase.co`
+     - `VITE_SUPABASE_ANON_KEY` = `<anon key>`
+   - Build command : `npm run build` · Output : `dist`
+   - `vercel.json` fournit le rewrite SPA (routes client) + cache des assets.
+
+3. **Vérif** : `npm run smoke` (local) puis smoke manuel sur l'URL live.
+
+## Vérification end-to-end
+
+Voir `scripts/smoke.mjs` (Playwright) : auth, dashboard, kanban, listes,
+rappels, détail opportunité + journal d'activité, bascule FR/EN.
