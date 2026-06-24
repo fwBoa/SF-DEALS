@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Plus, Download } from 'lucide-react'
+import { Plus, Download, Upload } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useEntreprises, type EntrepriseFields } from '@/hooks/useEntreprises'
 import type { Entreprise, Filters } from '@/lib/types'
@@ -12,6 +12,7 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { FilterBar, emptyFilters } from '@/components/filters/FilterBar'
 import { EntrepriseTable } from '@/components/entreprises/EntrepriseTable'
 import { EntrepriseForm } from '@/components/entreprises/EntrepriseForm'
+import { ImportDialog } from '@/components/entreprises/ImportDialog'
 import { exportCsv, timestampSlug } from '@/lib/csv'
 import { useToast } from '@/lib/toast'
 import { sectorLabel } from '@/config/sectors'
@@ -22,7 +23,7 @@ export function EntreprisesPage() {
   const { teamId } = useAuth()
   const toast = useToast()
   const [filters, setFilters] = useState<Filters>(emptyFilters)
-  const { data, loading, create, update, remove } = useEntreprises(filters)
+  const { data, loading, create, update, remove, refetch } = useEntreprises(filters)
 
   function handleExport() {
     exportCsv(
@@ -43,6 +44,7 @@ export function EntreprisesPage() {
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Entreprise | null>(null)
   const [toDelete, setToDelete] = useState<Entreprise | null>(null)
+  const [importOpen, setImportOpen] = useState(false)
 
   function openCreate() {
     setEditing(null)
@@ -66,6 +68,14 @@ export function EntreprisesPage() {
         title={t('entreprise.plural')}
         actions={
           <div className="flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setImportOpen(true)}
+            >
+              <Upload size={15} />
+              {t('common.import')}
+            </Button>
             <Button
               variant="secondary"
               size="sm"
@@ -115,6 +125,13 @@ export function EntreprisesPage() {
           setToDelete(null)
         }}
         onCancel={() => setToDelete(null)}
+      />
+
+      <ImportDialog
+        open={importOpen}
+        teamId={teamId}
+        onClose={() => setImportOpen(false)}
+        onImported={() => void refetch()}
       />
     </div>
   )
