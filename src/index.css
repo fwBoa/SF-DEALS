@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   SF Deals — Design system
+   Premium / conseil, minimaliste. Fond sombre par défaut.
+   ========================================================================== */
+@theme {
+  /* Couleurs */
+  --color-ink: #0e0d0c; /* fond sombre */
+  --color-ink-soft: #171513; /* fond sombre secondaire (cartes) */
+  --color-paper: #efebe1; /* fond clair (alternance) */
+  --color-gold: #c9a44d; /* accent or */
+  --color-gold-soft: #e0c885;
+  --color-ink-text: #f3f0e9; /* texte sur fond sombre */
+  --color-paper-text: #15140f; /* texte sur fond clair */
+  --color-muted: #8a8275; /* texte secondaire */
+
+  /* Lignes / bordures */
+  --color-line-dark: #2a2722;
+  --color-line-light: #d9d3c4;
+
+  /* Polices */
+  --font-serif: 'Lora', Georgia, serif;
+  --font-sans: 'Poppins', system-ui, sans-serif;
+
+  /* Rayons */
+  --radius-card: 10px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-ink);
+  color: var(--color-ink-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Titres : Lora serif */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Accent italique pour mots d'accent */
+.accent-italic {
+  font-style: italic;
+  color: var(--color-gold);
+}
+
+/* Scrollbar discrète sur fond sombre */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-dark) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line-dark);
+  border-radius: 8px;
+}
+
+/* Transitions douces par défaut pour éléments interactifs */
+button,
+a {
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
