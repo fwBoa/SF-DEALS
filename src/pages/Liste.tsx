@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
+import { Plus, Pencil, Trash2, Download } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useOpportunities } from '@/hooks/useOpportunities'
 import { useEntreprises } from '@/hooks/useEntreprises'
@@ -8,6 +8,7 @@ import type { Opportunite, OpportuniteWithRelations, Filters } from '@/lib/types
 import { countryName } from '@/config/countries'
 import { stageLabel, STAGE_BY_ID } from '@/config/pipeline'
 import { segmentLabel } from '@/config/segments'
+import { sourceLabel } from '@/config/sources'
 import { formatMoney } from '@/config/currencies'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { Button } from '@/components/ui/Button'
@@ -17,14 +18,36 @@ import { Spinner } from '@/components/ui/Spinner'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { FilterBar, emptyFilters } from '@/components/filters/FilterBar'
 import { OpportuniteForm } from '@/components/opportunities/OpportuniteForm'
+import { exportCsv, timestampSlug } from '@/lib/csv'
+import { useToast } from '@/lib/toast'
 
 export function Liste() {
   const { t, i18n } = useTranslation()
   const lang = (i18n.resolvedLanguage as 'fr' | 'en') ?? 'fr'
   const { teamId } = useAuth()
+  const toast = useToast()
   const [filters, setFilters] = useState<Filters>(emptyFilters)
   const { data, loading, create, update, remove } = useOpportunities(filters)
   const { data: entreprises } = useEntreprises(emptyFilters)
+
+  function handleExport() {
+    exportCsv(
+      data,
+      [
+        { header: t('opportunite.intitule'), value: (o) => o.intitule ?? '' },
+        { header: t('opportunite.entreprise'), value: (o) => o.entreprise?.nom ?? '' },
+        { header: t('opportunite.entreprise') + ' — pays', value: (o) => countryName(o.entreprise?.pays, lang) },
+        { header: t('opportunite.etape'), value: (o) => stageLabel(o.etape_pipeline, lang) },
+        { header: t('opportunite.valeur'), value: (o) => o.valeur_estimee ?? '' },
+        { header: t('opportunite.devise'), value: (o) => o.devise },
+        { header: t('opportunite.source'), value: (o) => sourceLabel(o.source, lang) },
+        { header: t('opportunite.segment'), value: (o) => segmentLabel(o.segment_abc, lang) },
+        { header: t('opportunite.date_prochaine_action'), value: (o) => o.date_prochaine_action ?? '' },
+      ],
+      `opportunites-${timestampSlug()}`,
+    )
+    toast.success(t('toast.exported'))
+  }
 
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState<Opportunite | null>(null)
@@ -35,9 +58,19 @@ export function Liste() {
       <PageHeader
         title={t('opportunite.plural')}
         actions={
-          <Button variant="primary" size="sm" onClick={() => { setEditing(null); setFormOpen(true) }}>
-            <Plus size={15} /> {t('opportunite.new')}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleExport}
+              disabled={loading || data.length === 0}
+            >
+              <Download size={15} /> {t('common.export')}
+            </Button>
+            <Button variant="primary" size="sm" onClick={() => { setEditing(null); setFormOpen(true) }}>
+              <Plus size={15} /> {t('opportunite.new')}
+            </Button>
+          </div>
         }
       />
 
