@@ -1,0 +1,139 @@
+{
+  "app": {
+    "name": "SF Deals",
+    "tagline": "CRM de prospection — Afrique de l'Ouest & réseau Ecobank"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "pipeline": "Pipeline",
+    "liste": "Opportunités",
+    "entreprises": "Entreprises",
+    "contacts": "Contacts",
+    "rappels": "Rappels",
+    "parametres": "Paramètres"
+  },
+  "common": {
+    "search": "Rechercher…",
+    "add": "Ajouter",
+    "create": "Créer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "loading": "Chargement…",
+    "empty": "Aucun élément",
+    "export": "Exporter CSV",
+    "import": "Importer CSV",
+    "yes": "Oui",
+    "no": "Non",
+    "all": "Tous"
+  },
+  "filters": {
+    "title": "Filtres",
+    "pays": "Pays",
+    "secteur": "Secteur",
+    "segment": "Segment",
+    "ecobank": "Présence Ecobank",
+    "ecobank_any": "Indifférent",
+    "ecobank_yes": "Présent",
+    "ecobank_no": "Absent",
+    "clear": "Réinitialiser"
+  },
+  "entreprise": {
+    "singular": "Entreprise",
+    "plural": "Entreprises",
+    "nom": "Nom",
+    "pays": "Pays",
+    "secteur": "Secteur",
+    "presence_ecobank": "Présence Ecobank",
+    "site_web": "Site web",
+    "notes": "Notes",
+    "new": "Nouvelle entreprise",
+    "edit": "Modifier l'entreprise",
+    "contacts": "Contacts",
+    "opportunities": "Opportunités",
+    "count": "{{count}} entreprise(s)",
+    "delete_confirm": "Supprimer cette entreprise et tous ses contacts/opportunités liés ?"
+  },
+  "contact": {
+    "singular": "Contact",
+    "plural": "Contacts",
+    "nom": "Nom",
+    "fonction": "Fonction",
+    "email": "Email",
+    "telephone": "Téléphone / WhatsApp",
+    "linkedin": "LinkedIn",
+    "new": "Nouveau contact",
+    "edit": "Modifier le contact",
+    "entreprise": "Entreprise"
+  },
+  "opportunite": {
+    "singular": "Opportunité",
+    "plural": "Opportunités",
+    "intitule": "Intitulé",
+    "entreprise": "Entreprise",
+    "contact_principal": "Contact principal",
+    "etape": "Étape",
+    "valeur": "Valeur estimée",
+    "devise": "Devise",
+    "source": "Source",
+    "segment": "Segment ABC",
+    "score": "Score de priorité",
+    "date_dernier_contact": "Dernier contact",
+    "date_prochaine_action": "Prochaine action",
+    "notes": "Notes",
+    "new": "Nouvelle opportunité",
+    "edit": "Modifier l'opportunité",
+    "count": "{{count}} opportunité(s)"
+  },
+  "pipeline": {
+    "title": "Pipeline commercial",
+    "subtitle": "Glissez les cartes pour changer d'étape"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "prospects_by_country": "Prospects par pays",
+    "by_stage": "Répartition par étape",
+    "pipeline_value": "Valeur du pipeline",
+    "open_value": "Valeur ouvrable",
+    "won_value": "Valeur gagnée",
+    "conversion_rate": "Taux de conversion",
+    "conversion_hint": "Gagné / (Gagné + Perdu)",
+    "total_prospects": "Prospects",
+    "total_opportunities": "Opportunités"
+  },
+  "rappels": {
+    "title": "Rappels",
+    "subtitle": "Prochaines actions à venir",
+    "overdue": "En retard",
+    "upcoming": "À venir",
+    "no_actions": "Aucune action planifiée",
+    "days_in": "dans {{count}} j",
+    "days_ago": "il y a {{count}} j"
+  },
+  "auth": {
+    "login_title": "Connexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "signin": "Se connecter",
+    "signout": "Déconnexion",
+    "error": "Email ou mot de passe incorrect",
+    "demo_hint": "Compte démo : dev@sfdeals.local / sfdeals123"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue de l'interface",
+    "data": "Données",
+    "account": "Compte"
+  },
+  "toast": {
+    "saved": "Enregistré",
+    "deleted": "Supprimé",
+    "error": "Une erreur est survenue",
+    "exported": "Export généré",
+    "imported": "{{count}} ligne(s) importée(s)"
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "app": {
+    "name": "SF Deals",
+    "tagline": "Prospecting CRM — West Africa & Ecobank network"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "pipeline": "Pipeline",
+    "liste": "Opportunities",
+    "entreprises": "Companies",
+    "contacts": "Contacts",
+    "rappels": "Reminders",
+    "parametres": "Settings"
+  },
+  "common": {
+    "search": "Search…",
+    "add": "Add",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "loading": "Loading…",
+    "empty": "No items",
+    "export": "Export CSV",
+    "import": "Import CSV",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All"
+  },
+  "filters": {
+    "title": "Filters",
+    "pays": "Country",
+    "secteur": "Sector",
+    "segment": "Segment",
+    "ecobank": "Ecobank presence",
+    "ecobank_any": "Any",
+    "ecobank_yes": "Present",
+    "ecobank_no": "Absent",
+    "clear": "Reset"
+  },
+  "entreprise": {
+    "singular": "Company",
+    "plural": "Companies",
+    "nom": "Name",
+    "pays": "Country",
+    "secteur": "Sector",
+    "presence_ecobank": "Ecobank presence",
+    "site_web": "Website",
+    "notes": "Notes",
+    "new": "New company",
+    "edit": "Edit company",
+    "contacts": "Contacts",
+    "opportunities": "Opportunities",
+    "count": "{{count}} compan(y/ies)",
+    "delete_confirm": "Delete this company and all related contacts/opportunities?"
+  },
+  "contact": {
+    "singular": "Contact",
+    "plural": "Contacts",
+    "nom": "Name",
+    "fonction": "Role",
+    "email": "Email",
+    "telephone": "Phone / WhatsApp",
+    "linkedin": "LinkedIn",
+    "new": "New contact",
+    "edit": "Edit contact",
+    "entreprise": "Company"
+  },
+  "opportunite": {
+    "singular": "Opportunity",
+    "plural": "Opportunities",
+    "intitule": "Title",
+    "entreprise": "Company",
+    "contact_principal": "Main contact",
+    "etape": "Stage",
+    "valeur": "Estimated value",
+    "devise": "Currency",
+    "source": "Source",
+    "segment": "ABC segment",
+    "score": "Priority score",
+    "date_dernier_contact": "Last contact",
+    "date_prochaine_action": "Next action",
+    "notes": "Notes",
+    "new": "New opportunity",
+    "edit": "Edit opportunity",
+    "count": "{{count}} opportunit(y/ies)"
+  },
+  "pipeline": {
+    "title": "Sales pipeline",
+    "subtitle": "Drag cards to change stage"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "prospects_by_country": "Prospects by country",
+    "by_stage": "Distribution by stage",
+    "pipeline_value": "Pipeline value",
+    "open_value": "Open value",
+    "won_value": "Won value",
+    "conversion_rate": "Conversion rate",
+    "conversion_hint": "Won / (Won + Lost)",
+    "total_prospects": "Prospects",
+    "total_opportunities": "Opportunities"
+  },
+  "rappels": {
+    "title": "Reminders",
+    "subtitle": "Upcoming next actions",
+    "overdue": "Overdue",
+    "upcoming": "Upcoming",
+    "no_actions": "No action scheduled",
+    "days_in": "in {{count}} d",
+    "days_ago": "{{count}} d ago"
+  },
+  "auth": {
+    "login_title": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "signin": "Sign in",
+    "signout": "Sign out",
+    "error": "Invalid email or password",
+    "demo_hint": "Demo account: dev@sfdeals.local / sfdeals123"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Interface language",
+    "data": "Data",
+    "account": "Account"
+  },
+  "toast": {
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "error": "An error occurred",
+    "exported": "Export generated",
+    "imported": "{{count}} row(s) imported"
+  }
+}
