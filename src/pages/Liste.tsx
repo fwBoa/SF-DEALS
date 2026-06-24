@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Plus, Pencil, Trash2, Download } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
@@ -100,7 +101,11 @@ export function Liste() {
               <tbody>
                 {data.map((o) => (
                   <tr key={o.id} className="border-b border-line-dark/50 hover:bg-ink-soft/60">
-                    <td className="px-3 py-2.5 font-medium text-ink-text">{o.intitule || '—'}</td>
+                    <td className="px-3 py-2.5 font-medium text-ink-text">
+                      <Link to={`/opportunites/${o.id}`} className="hover:text-gold hover:underline">
+                        {o.intitule || '—'}
+                      </Link>
+                    </td>
                     <td className="px-3 py-2.5 text-muted">
                       {o.entreprise ? `${o.entreprise.nom} · ${countryName(o.entreprise.pays, lang)}` : '—'}
                     </td>

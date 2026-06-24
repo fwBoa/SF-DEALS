@@ -114,6 +114,16 @@
     "days_in": "dans {{count}} j",
     "days_ago": "il y a {{count}} j"
   },
+  "activite": {
+    "title": "Journal d'activité",
+    "new": "Nouvelle activité",
+    "type": "Type",
+    "date": "Date",
+    "commentaire": "Commentaire",
+    "placeholder_commentaire": "Compte-rendu de l'échange…",
+    "empty": "Aucune activité enregistrée",
+    "last_contact": "Dernier contact"
+  },
   "auth": {
     "login_title": "Connexion",
     "email": "Email",

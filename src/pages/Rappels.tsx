@@ -20,7 +20,7 @@ function ReminderRow({ r, lang }: { r: Reminder; lang: 'fr' | 'en' }) {
 
   return (
     <Link
-      to="/opportunites"
+      to={`/opportunites/${r.id}`}
       className="flex items-center gap-3 rounded-lg border border-line-dark/60 bg-ink p-3 transition hover:border-gold/50"
     >
       <span

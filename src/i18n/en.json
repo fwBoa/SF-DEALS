@@ -114,6 +114,16 @@
     "days_in": "in {{count}} d",
     "days_ago": "{{count}} d ago"
   },
+  "activite": {
+    "title": "Activity log",
+    "new": "New activity",
+    "type": "Type",
+    "date": "Date",
+    "commentaire": "Comment",
+    "placeholder_commentaire": "Summary of the exchange…",
+    "empty": "No activity recorded",
+    "last_contact": "Last contact"
+  },
   "auth": {
     "login_title": "Sign in",
     "email": "Email",

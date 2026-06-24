@@ -11,6 +11,7 @@ import { EntreprisesPage } from '@/pages/EntreprisesPage'
 import { EntrepriseDetailPage } from '@/pages/EntrepriseDetailPage'
 import { ContactsPage } from '@/pages/ContactsPage'
 import { Rappels } from '@/pages/Rappels'
+import { OpportuniteDetailPage } from '@/pages/OpportuniteDetailPage'
 import { Parametres } from '@/pages/Parametres'
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/pipeline" element={<Pipeline />} />
               <Route path="/liste" element={<Liste />} />
+              <Route path="/opportunites/:id" element={<OpportuniteDetailPage />} />
               <Route path="/entreprises" element={<EntreprisesPage />} />
               <Route path="/entreprises/:id" element={<EntrepriseDetailPage />} />
               <Route path="/contacts" element={<ContactsPage />} />
