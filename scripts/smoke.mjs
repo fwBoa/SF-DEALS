@@ -1,7 +1,10 @@
 import { chromium } from 'playwright'
 import { spawn } from 'node:child_process'
 
-const BASE = 'http://127.0.0.1:5173'
+// BASE peut pointer vers une URL distante (ex. https://sf-deals.vercel.app)
+// via la variable d'environnement SMOKE_BASE ; sinon on démarre le dev server local.
+const BASE = process.env.SMOKE_BASE || 'http://127.0.0.1:5173'
+const isRemote = /^https?:\/\//.test(BASE) && !BASE.includes('127.0.0.1') && !BASE.includes('localhost')
 const results = []
 function ok(name) { results.push({ name, pass: true }) }
 function fail(name, err) { results.push({ name, pass: false, err: String(err) }) }
@@ -11,6 +14,7 @@ let viteProc = null
 async function ensureDevServer() {
   const up = await fetch(BASE + '/').then((r) => r.ok).catch(() => false)
   if (up) return
+  if (isRemote) throw new Error('remote BASE unreachable: ' + BASE)
   viteProc = spawn('npm', ['run', 'dev'], { stdio: 'ignore', detached: true })
   for (let i = 0; i < 60; i++) {
     await new Promise((r) => setTimeout(r, 500))
