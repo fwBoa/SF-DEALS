@@ -61,8 +61,6 @@ export function Login() {
           {t('auth.signin')}
         </Button>
       </form>
-
-      <p className="text-xs text-muted">{t('auth.demo_hint')}</p>
     </div>
   )
 }

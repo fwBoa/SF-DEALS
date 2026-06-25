@@ -25,7 +25,6 @@ drop type if exists public.devise_t cascade;
 drop type if exists public.segment_abc_t cascade;
 drop type if exists public.activite_type_t cascade;
 drop type if exists public.team_role_t cascade;
-
 -- ==========================================================================
 -- 0001_init_schema.sql
 -- ==========================================================================
@@ -154,8 +153,7 @@ begin
 end $$;
 
 create trigger trg_opp_team before insert or update on public.opportunites
-  for each row execute function public.assert_opp_same_team();
--- ==========================================================================
+  for each row execute function public.assert_opp_same_team();-- ==========================================================================
 -- 0002_rls_policies.sql
 -- ==========================================================================
 -- ==========================================================================
@@ -208,9 +206,22 @@ create policy "teams_delete" on public.teams for delete to authenticated
 create policy "tm_select" on public.team_members for select to authenticated
   using (user_id = (select auth.uid()));
 
--- Un propriétaire peut inviter un membre DANS une équipe à laquelle il appartient.
+-- Un propriétaire peut inviter un membre DANS une équipe à laquelle il appartient,
+-- OU un utilisateur peut s'ajouter lui-même comme PREMIER membre d'une équipe
+-- qu'il vient de créer (onboarding auto à la première connexion). La condition
+-- "équipe sans membre" empêche de s'ajouter à une équipe peuplée par autrui ;
+-- combiné au fait que RLS cache les équipes des autres utilisateurs (id non
+-- énumérable), le risque de course est nul en pratique.
 create policy "tm_insert" on public.team_members for insert to authenticated
-  with check (team_id in (select * from public.current_user_teams()));
+  with check (
+    team_id in (select * from public.current_user_teams())
+    or (
+      user_id = (select auth.uid())
+      and not exists (
+        select 1 from public.team_members tm2 where tm2.team_id = team_members.team_id
+      )
+    )
+  );
 
 create policy "tm_update" on public.team_members for update to authenticated
   using (team_id in (select * from public.current_user_teams()))
@@ -278,8 +289,7 @@ grant select, insert, update, delete on public.contacts      to authenticated, a
 grant select, insert, update, delete on public.opportunites to authenticated, anon;
 grant select, insert, update, delete on public.activites    to authenticated, anon;
 
-grant usage, select on all sequences in schema public to authenticated, anon;
--- ==========================================================================
+grant usage, select on all sequences in schema public to authenticated, anon;-- ==========================================================================
 -- 0003_indexes.sql
 -- ==========================================================================
 -- ==========================================================================
@@ -302,8 +312,7 @@ create index idx_opp_segment    on public.opportunites(segment_abc);
 create index idx_opp_entreprise on public.opportunites(entreprise_id);
 create index idx_opp_prochaine  on public.opportunites(date_prochaine_action);
 
-create index idx_act_opp        on public.activites(opportunite_id);
--- ==========================================================================
+create index idx_act_opp        on public.activites(opportunite_id);-- ==========================================================================
 -- 0004_updated_at_trigger.sql
 -- ==========================================================================
 -- ==========================================================================
@@ -324,8 +333,7 @@ create trigger trg_ctc_touch before update on public.contacts
   for each row execute function public.touch_updated_at();
 
 create trigger trg_opp_touch before update on public.opportunites
-  for each row execute function public.touch_updated_at();
--- ==========================================================================
+  for each row execute function public.touch_updated_at();-- ==========================================================================
 -- seed.sql
 -- ==========================================================================
 -- ==========================================================================

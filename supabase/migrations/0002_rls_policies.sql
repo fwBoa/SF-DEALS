@@ -48,9 +48,22 @@ create policy "teams_delete" on public.teams for delete to authenticated
 create policy "tm_select" on public.team_members for select to authenticated
   using (user_id = (select auth.uid()));
 
--- Un propriétaire peut inviter un membre DANS une équipe à laquelle il appartient.
+-- Un propriétaire peut inviter un membre DANS une équipe à laquelle il appartient,
+-- OU un utilisateur peut s'ajouter lui-même comme PREMIER membre d'une équipe
+-- qu'il vient de créer (onboarding auto à la première connexion). La condition
+-- "équipe sans membre" empêche de s'ajouter à une équipe peuplée par autrui ;
+-- combiné au fait que RLS cache les équipes des autres utilisateurs (id non
+-- énumérable), le risque de course est nul en pratique.
 create policy "tm_insert" on public.team_members for insert to authenticated
-  with check (team_id in (select * from public.current_user_teams()));
+  with check (
+    team_id in (select * from public.current_user_teams())
+    or (
+      user_id = (select auth.uid())
+      and not exists (
+        select 1 from public.team_members tm2 where tm2.team_id = team_members.team_id
+      )
+    )
+  );
 
 create policy "tm_update" on public.team_members for update to authenticated
   using (team_id in (select * from public.current_user_teams()))
